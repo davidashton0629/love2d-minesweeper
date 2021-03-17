@@ -1,2 +1,2 @@
-# love2d-minesweeper
-Minesweeper made in Lua for the LOVE2D engine.
+  # LOVE2D Minesweeper
+A simple Minesweeper game made in Lua for the LOVE2D engine.
