@@ -31,13 +31,13 @@ function Cell:newCell(x,y,g)
 		local lastY = #Board[1]
 		
 		if self.row > 1 and self.col > 1 then table.insert(adj, Board[self.row - 1][self.col - 1]) end
-        if self.row > 1 then table.insert(adj, Board[self.row - 1][self.col]) end
-        if self.row > 1 and self.col < lastY then table.insert(adj, Board[self.row - 1][self.col + 1]) end
-        if self.col < lastY then table.insert(adj, Board[self.row][self.col + 1]) end
-        if self.row < lastX and self.col < lastY then table.insert(adj, Board[self.row + 1][self.col + 1]) end
-        if self.row < lastX then table.insert(adj, Board[self.row + 1][self.col]) end
-        if self.row < lastX and self.col > 1 then table.insert(adj, Board[self.row + 1][self.col - 1]) end
-        if self.col > 1 then table.insert(adj, Board[self.row][self.col - 1]) end
+		if self.row > 1 then table.insert(adj, Board[self.row - 1][self.col]) end
+		if self.row > 1 and self.col < lastY then table.insert(adj, Board[self.row - 1][self.col + 1]) end
+		if self.col < lastY then table.insert(adj, Board[self.row][self.col + 1]) end
+		if self.row < lastX and self.col < lastY then table.insert(adj, Board[self.row + 1][self.col + 1]) end
+		if self.row < lastX then table.insert(adj, Board[self.row + 1][self.col]) end
+		if self.row < lastX and self.col > 1 then table.insert(adj, Board[self.row + 1][self.col - 1]) end
+		if self.col > 1 then table.insert(adj, Board[self.row][self.col - 1]) end
 
 		return adj
 	end
