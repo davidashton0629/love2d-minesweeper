@@ -1,21 +1,21 @@
 local Cell = {}
-local Neon = require("neon")
+inGame = require("neon"):new()
 local Game
 local Board
 
 function Cell:newCell(x,y,g)
 	if not Game then Game = g end
 	if not Board then Board = g.board end
-	local c = Neon:addBox("cell" .. "[" .. x .. "]" .. "[" .. y .. "]")
+	local c = inGame:addBox("cell" .. "[" .. x .. "]" .. "[" .. y .. "]")
 	c:addImage(Game.images.mine, "mine")
 	c:addImage(Game.images.flag, "flag")
 	
 	c:setData({
-		x = x - 24, y = y - 24, 
+		x = x - 24, y = y - 24, z = 1,
 		width = 23, height = 23,
 		color = {.7,.7,.7,1},
 		useBorder=true, borderColor={.2,.2,.2,1},
-		keepBackground = true
+		keepBackground = true,
 	})
 	
 	c.row = x / 25
@@ -65,6 +65,7 @@ function Cell:newCell(x,y,g)
 			self.flagged = false 
 		end
 		self.revealed = true
+		Game.selectSound:play()
 		self:setColor({1,1,1,1})
 		if self.bomb then
 			self:setImage("mine"):setImageOffset({3,3})
@@ -78,12 +79,12 @@ function Cell:newCell(x,y,g)
 			end
 		else
 			self.data = #self:getAdjBombs()
-			local text = Neon:addText("cell[" .. self.row .. "]" .. "[" .. self.col .. "]")
-			text:setData({x = self.pos.x + 7, y = self.pos.y + 5, z = 2, text = tostring(self.data), color = {0,0,0,1}})
+			local text = inGame:addText("cell[" .. self.row .. "]" .. "[" .. self.col .. "]")
+			text:setData({x = self.pos.x + 7, y = self.pos.y + 5, z = 2, text = tostring(self.data), font = Game.normalFont, color = {0,0,0,1}, hollow = true})
 			table.insert(Game.boardText, text)
 		end
-		Game.score = Game.score + 10
-		Neon:child("score", true):setText("Score: " .. tostring(Game.score))
+		Game.score = Game.score + math.max(10, (love.timer.getTime() - Game.time) * (love.timer.getTime() / Game.time))
+		inGame:child("score", true):setText("Score: " .. tostring(Game.score))
 	
 		local gameFinished = true
 		for _,v in ipairs(Game.boardText) do
@@ -103,6 +104,7 @@ function Cell:newCell(x,y,g)
 		end
 		return false
 	end
+	
 	setmetatable(c,c)
 	return c
 end
